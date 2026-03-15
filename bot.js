@@ -1,15 +1,17 @@
+// ===== Expressサーバー（Render用） =====
 const express = require("express");
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("Bot is running");
+  res.send("DiceBot is running");
 });
 
 app.listen(3000, () => {
   console.log("Server running");
 });
 
-const { Client, GatewayIntentBits } = require('discord.js');
+// ===== Discord Bot =====
+const { Client, GatewayIntentBits } = require("discord.js");
 
 const client = new Client({
   intents: [
@@ -19,20 +21,20 @@ const client = new Client({
   ]
 });
 
-const token = "";
+// Botが起動したとき
+client.on("ready", () => {
+  console.log(`Bot ready: ${client.user.tag}`);
+});
 
+// メッセージを受け取ったとき
 client.on("messageCreate", message => {
-
   if (message.author.bot) return;
 
   if (message.content === "!dice") {
-
-    const dice = Math.floor(Math.random() * 6) + 1;
-
-    message.reply("🎲 " + dice);
-
+    const result = Math.floor(Math.random() * 6) + 1;
+    message.reply(`🎲 ダイス結果: ${result}`);
   }
-
 });
 
+// Renderの環境変数TOKENを使用
 client.login(process.env.TOKEN);
