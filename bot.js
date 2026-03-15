@@ -32,7 +32,7 @@ client.on("messageCreate", message => {
 
   if (message.content === "!dice") {
     const result = Math.floor(Math.random() * 6) + 1;
-    message.reply(`🎲 ダイス結果: ${result}`);
+    message.reply(`🎲  ${result}`);
   }
 });
 
