@@ -6,7 +6,8 @@ app.get("/", (req, res) => {
   res.send("DiceBot is running");
 });
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
   console.log("Server running");
 });
 
@@ -21,20 +22,22 @@ const client = new Client({
   ]
 });
 
-// Botが起動したとき
+// 起動時
 client.on("ready", () => {
   console.log(`Bot ready: ${client.user.tag}`);
 });
 
-// メッセージを受け取ったとき
+// メッセージ処理（これ1つだけ！）
 client.on("messageCreate", message => {
   if (message.author.bot) return;
 
-  if (message.content === "!dice") {
+  console.log("受信:", message.content);
+
+  if (message.content.startsWith("!dice")) {
     const result = Math.floor(Math.random() * 6) + 1;
-    message.reply(`🎲 ${result}`);
+    message.channel.send(`${result}`);
   }
 });
 
-// Renderの環境変数TOKENを使用
+// ログイン
 client.login(process.env.TOKEN);
