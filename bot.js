@@ -1,6 +1,8 @@
 
 console.log("BOT FILE LOADED");
 
+console.log("ENV TOKEN:", process.env.TOKEN);
+
 // ===== Expressサーバー（Render用） =====
 const express = require("express");
 const app = express();
