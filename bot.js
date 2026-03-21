@@ -1,3 +1,6 @@
+
+console.log("BOT FILE LOADED");
+
 // ===== Expressサーバー（Render用） =====
 const express = require("express");
 const app = express();
