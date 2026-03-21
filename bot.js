@@ -40,4 +40,6 @@ client.on("messageCreate", message => {
 });
 
 // ログイン
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN)
+  .then(() => console.log("ログイン成功"))
+  .catch(err => console.error("ログイン失敗:", err));
