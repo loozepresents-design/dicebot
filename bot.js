@@ -1,6 +1,6 @@
 console.log("BOT FILE LOADED");
 
-// ===== Express（Render用：軽く生存確認だけ） =====
+// ===== Express（Railway用：軽い生存確認） =====
 const express = require("express");
 const app = express();
 
@@ -8,23 +8,19 @@ app.get("/", (req, res) => {
   res.send("Bot is alive");
 });
 
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, "0.0.0.0", () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
 // ===== Discord Bot =====
 const { Client, GatewayIntentBits } = require("discord.js");
 
-// エラーハンドリング（超重要）
-process.on("unhandledRejection", err => {
-  console.error("unhandledRejection:", err);
-});
-process.on("uncaughtException", err => {
-  console.error("uncaughtException:", err);
-});
+// エラーログ（落ち防止）
+process.on("unhandledRejection", err => console.error(err));
+process.on("uncaughtException", err => console.error(err));
 
-// クライアント
+// クライアント作成
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -33,7 +29,7 @@ const client = new Client({
   ]
 });
 
-// 起動確認
+// 起動時
 client.once("ready", () => {
   console.log(`✅ Bot ready: ${client.user.tag}`);
 });
@@ -42,15 +38,17 @@ client.once("ready", () => {
 client.on("messageCreate", message => {
   if (message.author.bot) return;
 
-  console.log("受信:", message.content);
-
   if (message.content.startsWith("!dice")) {
-    const result = Math.floor(Math.random() * 6) + 1;
-    message.channel.send(`${result}`);
+    const dice = ["⚀","⚁","⚂","⚃","⚄","⚅"];
+    const result = Math.floor(Math.random() * 6);
+
+    message.channel.send({
+      content: `${dice[result]} ${result + 1}`
+    });
   }
 });
 
-// トークンチェック
+// TOKENチェック
 if (!process.env.TOKEN) {
   console.error("❌ TOKENが設定されてない");
   process.exit(1);
@@ -64,7 +62,7 @@ client.login(process.env.TOKEN)
     process.exit(1);
   });
 
-// 生存確認ログ（Render対策）
+// 生存ログ
 setInterval(() => {
   console.log("still alive...");
 }, 30000);
