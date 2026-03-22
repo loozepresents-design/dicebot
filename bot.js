@@ -38,14 +38,13 @@ client.once("ready", () => {
 client.on("messageCreate", message => {
   if (message.author.bot) return;
 
-  if (message.content.startsWith("!dice")) {
-    const dice = ["⚀","⚁","⚂","⚃","⚄","⚅"];
-    const result = Math.floor(Math.random() * 6);
+if (message.content.startsWith("!dice")) {
+  const result = Math.floor(Math.random() * 6) + 1;
 
-    message.channel.send({
-      content: `${dice[result]} ${result + 1}`
-    });
-  }
+  message.channel.send({
+    content: `🎲 ${result}`
+  });
+}
 });
 
 // TOKENチェック
