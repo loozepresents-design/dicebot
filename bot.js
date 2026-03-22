@@ -41,7 +41,7 @@ client.on("messageCreate", message => {
 if (message.content.startsWith("!dice")) {
   const result = Math.floor(Math.random() * 6) + 1;
 
-  message.channel.send({
+  message.reply({
     content: `🎲 ${result}`
   });
 }
